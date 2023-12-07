@@ -1,0 +1,2462 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"then",
+				"then"
+			],
+			[
+				"po",
+				"pos"
+			],
+			[
+				"overl",
+				"overlap"
+			],
+			[
+				"or",
+				"orders"
+			],
+			[
+				"B",
+				"B"
+			],
+			[
+				"tile2D",
+				"tile2D"
+			],
+			[
+				"f",
+				"f\tAnonymous Function"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "LuaRules/Configs/spawn_defs.lua",
+			"settings":
+			{
+				"buffer_size": 22808,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LuaRules/Gadgets/unit_spawner.lua",
+			"settings":
+			{
+				"buffer_size": 66854,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LuaUI/Widgets/gui_chili_chicken.lua",
+			"settings":
+			{
+				"buffer_size": 51329,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LuaUI/Widgets/chili_old/Controls/editbox.lua",
+			"settings":
+			{
+				"buffer_size": 24615,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/textbox.lua",
+			"settings":
+			{
+				"buffer_size": 1432,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili_old/Controls/object.lua",
+			"settings":
+			{
+				"buffer_size": 22213,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 29 files for \"caption\" (case sensitive)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\button.lua:\n    5:   caption  = 'button',\n   20: function Button:SetCaption(caption)\n   21:   if (self.caption == caption) then return end\n   22:   self.caption = caption\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\checkbox.lua:\n    6:   caption   = \"text\",\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\combobox.lua:\n   14:   caption = 'combobox',\n   58:         self.caption = \"\"\n   59:         self.caption = item\n  114:             caption = item,\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\imagelistview.lua:\n  124:         caption = name,\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\label.lua:\n   16:   caption  = \"no text\",\n   27:   obj:SetCaption(obj.caption)\n   33: function Label:SetCaption(newcaption)\n   34:   if (self.caption == newcaption) then return end\n   35:   self.caption = newcaption\n   45:     self._caption  = self.caption\n   46:     local w = font:GetTextWidth(self.caption);\n   47:     local h, d, numLines = font:GetTextHeight(self.caption);\n   76:     self._caption = font:WrapText(self.caption, self.width, self.height)\n   85:   font:DrawInBox(self._caption,self.x,self.y,self.width,self.height,self.align,self.valign)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\LayoutPanel.lua:\n    9: --// objects, so the user just define the captions, filenames, ... instead\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\line.lua:\n    5:   caption  = 'line',\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\progressbar.lua:\n   15:   caption   = \"\",\n   74: function Progressbar:SetValue(v,setcaption)\n   80:     if (setcaption) then\n   91:   if (self.caption ~= str) then\n   92:     self.caption = str\n  137:   if (self.caption) and not self.noFont then\n  138:     (self.font):Print(self.caption, x+w*0.5, y+h*0.5, \"center\", \"center\")\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\tabbar.lua:\n   28: \t\t\t\tTabBarItem:New{caption = obj.tabs[i], defaultWidth = obj.minItemWidth, defaultHeight = obj.minItemHeight} --FIXME inherit font too\n   35: \t\t\tTabBarItem:New{caption = \"tab\"}\n   55: \t\tif c.caption == tabname then\n   73: \t\tself:CallListeners(self.OnChange, c.caption)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\tabbaritem.lua:\n    5:   caption  = 'tab',\n   15: function TabBarItem:SetCaption(caption)\n   17:   if (self.caption == caption) then return end\n   18:   self.caption = caption\n   26:   self.parent:Select(self.caption)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\treeview.lua:\n   67: function TreeView:GetNodeByCaption(caption)\n   68:   return self.root:GetNodeByCaption(caption)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\treeviewnode.lua:\n    9:   caption   = \"node\",\n   79: \tlocal caption\n   81: \t\tcaption = self.children[1]\n   92: \t\tself.children[1] = caption\n  104:     newnode = TreeViewNode:New{caption = item; treeview = self.treeview; minHeight = self.minHeight; expanded = self.expanded;}\n  108:     newnode = TreeViewNode:New{caption = \"\"; treeview = self.treeview; minHeight = self.minHeight; expanded = self.expanded;}\n  179: function TreeViewNode:GetNodeByCaption(caption)\n  182:     if (n.caption == caption) then\n  186:     local result = n:GetNodeByCaption(caption)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\window.lua:\n   36:   if obj.noFont == nil and obj.caption then\n\n59 matches across 13 files\n\n\nSearching 29 files for \"GetTextWidth\" (case sensitive)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\combobox.lua:\n  133:           width = math.max(width, self.font:GetTextWidth(item))\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\editbox.lua:\n  263: \t\t\ttw   = font:GetTextWidth(lineText),\n  394:     local w = font:GetTextWidth(self.text);\n  511: \t\t\tlocal tmpLen = self.font:GetTextWidth(selLine:sub(1 + retVal.offset, i))\n  514: \t\t\t\t\tlocal tmpPrevLen = self.font:GetTextWidth(selLine:sub(1 + retVal.offset, i - 1))\n  549: -- \t\t\tif self.font:GetTextWidth(tmp) > (x - clientX) then\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\font.lua:\n  145: function Font:GetTextWidth(text, size)\n  146:   return (self._font):GetTextWidth(text) * (size or self.size)\n\nE:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls\\label.lua:\n   46:     local w = font:GetTextWidth(self.caption);\n\n9 matches across 4 files\n\n\nSearching 29 files for \"dockable\" (case sensitive)\n\n0 matches\n\nSearching 10608 files for \"dockable\" (case sensitive)\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\api_chili_docking.lua:\n  288: \t\tif win.dockable then\n  311: \t\t\t\t\tif (win.resizable or win.tweakResizable) and not win.dockableNoResize then\n  342: \t\t\t\t\tdockable = false,\n  417: \t\t\tlocal dock = win.collide or win.dockable\n  419: \t\t\t\tif win.dockableSavePositionOnly or (not options.dockEnabled.value) then\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\dbg_animator.lua:\n  300: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_attrition_counter.lua:\n  476: \t\tdockable = true,\n  477: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_ai_start_pos.lua:\n   98: \t\tdockable  = true,\n   99: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_chat2_1.lua:\n 1018: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_cheats.lua:\n  667: \t\tdockable  = true,\n  668: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_chicken.lua:\n  423: \t\tdockable = true;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_commander_upgrade.lua:\n  199: \t\tdockable = true,\n  200: \t\tdockableSavePositionOnly = true,\n  201: \t\tdockableNoResize = true,\n  617: \t\tdockable = true,\n  618: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_core_selector.lua:\n 1580: \t\tdockable  = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_crudeplayerlist.lua:\n  625: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_crudeplayerlist_old.lua:\n  922: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_deluxeplayerlist.lua:\n 1510: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_display_keys.lua:\n   64: \t\tdockable = true,\n  119: \t\tdockable = true,\n  144: \t\tdockable = false;\n  159: \t\tdockable = false;\n  174: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_economy_panel2.lua:\n 1253: \t\tdockable = true,\n 1267: \t\tdockableSavePositionOnly = true,\n 1278: \t\tdockable = false;\n 1457: \t\tdockable = true,\n 1493: \t\tdockable = false;\n 1535: \t\tdockable = false;\n 1690: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_facbar.lua:\n  709: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_facpanel.lua:\n 1162: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_global_commands.lua:\n  441: \t\tdockable  = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_inactivity_win.lua:\n   54: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_integral_menu.lua:\n 2194: \t\tdockable  = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_keyboardmenu.lua:\n 1109: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_minimap.lua:\n  870: \t\tdockable = true,\n  894: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_nuke_warning.lua:\n   84: \t\tdockable = false,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_proconsole2.lua:\n 1202: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_proconsole_test.lua:\n 1285: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_radial_buildmenu.lua:\n  406: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_rejoin_progress.lua:\n  145: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_resource_bars.lua:\n  558: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_selections_and_cursortip.lua:\n 2469: \t\tdockable  = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_share.lua:\n 1350: \t\tdockable = false,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_space_waster.lua:\n   31: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_spectator_panels.lua:\n  549: \t\tdockable = false;\n  652: \t\tdockable = true,\n  675: \t\tdockable = false;\n  737: \t\tdockable = true,\n  762: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_chili_vote.lua:\n  208: \t\tdockable = true;\n  209: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_customModoptions_info.lua:\n  108: \t\tdockable  = true,\n  109: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_defenseRange.lua:\n  572: \t\tdockable  = true,\n  573: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_epicmenu.lua:\n 2214: \t\tdockable = false,\n 2642: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_news_ticker.lua:\n  434: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_planetwars_info.lua:\n  168: \t\tdockable = true,\n  169: \t\tdockableSavePositionOnly = true,\n  318: \t\tdockable = true,\n  319: \t\tdockableSavePositionOnly = true,\n  507: \t\tdockable = true,\n  508: \t\tdockableSavePositionOnly = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_replay_controls.lua:\n  150: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\gui_roi_tracker.lua:\n   86: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\mission_galaxy_battle_handler.lua:\n  312: \t\tdockable = false,\n  611: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\mission_messagebox_ZK.lua:\n  265: \t\tdockable = true;\n  418:     dockable = false,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\mission_objectives.lua:\n  333: \t\tdockable = false,\n  348: \t\tdockable = true,\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\nubtron.lua:\n  574: \t\tdockable = false;\n\nE:\\Spring\\Games\\zk.sdd\\LuaUI\\Widgets\\tipdispenser.lua:\n  435: \t\tdockable = true;\n\nE:\\Spring\\Games\\zkmenu.sdd\\libs\\chiliui\\gui_chili_docking.lua:\n  313: \t\t\t\t\tdockable = false;\n  364: \t\tif win.collide or win.dockable then\n  440: \t\tif win.dockable then\n  460: \t\t\t\twin.dockable and win.dragging --or (win.custom_freshlyMoved) --FIXME\n  465: \t\t\tif win.collide or win.dockable then\n\nE:\\Spring\\Games\\zkmenu.sdd\\libs\\chiliui\\gui_chiliguidemo.lua:\n  292: \t\tdockable = true,\n  313: \t\tdockable = true,\n\n89 matches across 46 files\n",
+			"settings":
+			{
+				"buffer_size": 10347,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/font.lua",
+			"settings":
+			{
+				"buffer_size": 6721,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/screen.lua",
+			"settings":
+			{
+				"buffer_size": 7772,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/control.lua",
+			"settings":
+			{
+				"buffer_size": 30240,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/scrollpanel.lua",
+			"settings":
+			{
+				"buffer_size": 11031,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/stackpanel.lua",
+			"settings":
+			{
+				"buffer_size": 1003,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/LayoutPanel.lua",
+			"settings":
+			{
+				"buffer_size": 27186,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/window.lua",
+			"settings":
+			{
+				"buffer_size": 1936,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_contextmenu.lua",
+			"settings":
+			{
+				"buffer_size": 70748,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili_old/Controls/label.lua",
+			"settings":
+			{
+				"buffer_size": 2502,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/grid.lua",
+			"settings":
+			{
+				"buffer_size": 156,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/Games/zkmenu.sdd/libs/chiliui/chili/controls/layoutpanel.lua",
+			"settings":
+			{
+				"buffer_size": 27294,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zkmenu.sdd/libs/chiliui/chili/controls/image.lua",
+			"settings":
+			{
+				"buffer_size": 4095,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/games/zkmenu.sdd/libs/chiliui/chili/controls/button.lua",
+			"settings":
+			{
+				"buffer_size": 1478,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LuaRules/Gadgets/unit_script.lua",
+			"settings":
+			{
+				"buffer_size": 26952,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "units/staticcon.lua",
+			"settings":
+			{
+				"buffer_size": 2955,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/E/Spring/CustomModes/relentlessChicksHost.json",
+			"settings":
+			{
+				"buffer_size": 641,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ModOptions.lua",
+			"settings":
+			{
+				"buffer_size": 27206,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "LuaUI/Configs/chickengui_config.lua",
+			"settings":
+			{
+				"buffer_size": 915,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/User/JavaScript.sublime-build",
+					""
+				],
+				[
+					"Packages/User/JavaScriptNode.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/JavaScriptNode.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove p",
+				"Package Control: Remove Package"
+			],
+			[
+				"sele",
+				"Select all by current scope"
+			],
+			[
+				"syntaxf",
+				"Preferences: SyntaxFold Settings - User"
+			],
+			[
+				"synjson",
+				"Set Syntax: JSON"
+			],
+			[
+				"s",
+				"Synt"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"syntaxFold",
+				"SyntaxFold: Unfold All"
+			],
+			[
+				"syn",
+				"Set Syntax: YAML"
+			],
+			[
+				"Package Control:install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"Package Control: remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: re",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: inst",
+				"Package Control: Install Package"
+			],
+			[
+				"install package control",
+				"Package Control: Install Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: function"
+			],
+			[
+				"debug",
+				"TextDebugging - print(selection)"
+			],
+			[
+				"xde",
+				"Xdebug: Restart Session"
+			],
+			[
+				"text",
+				"TextDebugging - print(selection)"
+			],
+			[
+				"xdebug",
+				"Xdebug: Restart Session"
+			],
+			[
+				"",
+				"Set Syntax: Java"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 184.0,
+		"history":
+		[
+			"sublime.log_commands(True)",
+			"``sublime.log_commands(True)``",
+			"view.run('Rot13')",
+			"view.runCommand('rot13')",
+			"view.runCommand('ExampleCommand')",
+			"view.runCommand('Example')",
+			"view.settings().get('syntax')",
+			"viex.settings().get('syntax')"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/api_chili_docking.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/Controls/screen.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili_old/Headers/links.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_chili_rejoin_progress.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/game_lagmonitor.lua",
+		"/E/Spring/games/zk.sdd/LuaUI/Widgets/gui_chili_crudeplayerlist.lua",
+		"/E/Spring/Games/zk.sdd/.luacheckrc",
+		"/E/Spring/Games/zk.sdd/LuaRules/Utilities/tablefunctions.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/unit_icongenerator.lua",
+		"/E/Spring/infolog.txt",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/dbg_gadget_profiler_new.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/gadgets.lua",
+		"/E/Spring/Source/develop/spring/rts/Lua/LuaSyncedTable.cpp",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/unit_morph.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/cawidgets.lua",
+		"/E/Spring/games/zk.sdd/LuaRules/Gadgets/cmd_fire_once.lua",
+		"/E/Spring/games/zk.sdd/LuaRules/Gadgets/cmd_raw_move.lua",
+		"/E/Spring/games/zk.sdd/LuaRules/Gadgets/ceasefire2.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/chiliui/chili/controls/window.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili_old/Controls/font.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaUI/Widgets/welcome_chicks.lua",
+		"/E/Spring/Games/zkmenu.sdd/LuaMenu/Addons/json.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaUI/Widgets/test.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/todo.txt",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/Controls/scrollpanel.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/Controls/control.lua",
+		"/E/Spring/games/zk.sdd/LuaUI/Widgets/chili/Controls/object.lua",
+		"/E/Spring/Games/zk.sdd/gamedata/unitdefs_post.lua",
+		"/E/Spring/httpsstreamable.com7f9xf2.txt",
+		"/C/Users/Hel/AppData/Local/GameAnalytics/Zero-K.exe/ga_log.txt",
+		"/C/Users/Hel/AppData/Local/GameAnalytics/Chobby.exe/ga_log.txt",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaUI/Widgets/gui_chili_chicken.backup",
+		"/E/Spring/loadprogress_cached.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_advplayerslist.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/Controls/object.lua",
+		"/E/Spring/games/zkmenu.sdd/libs/chiliui/chili/controls/control.lua",
+		"/E/Spring/games/zk.sdd/LuaRules/Configs/spawn_defs.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_chili_selections_and_cursortip.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/chiliui/chili/controls/screen.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/Controls/font.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/chiliui/chili/headers/util.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_chili_global_commands.lua",
+		"/E/Spring/Games/zkmenu.sdd/.luacheckrc",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_customModoptions_info.lua",
+		"/E/Spring/games/The Chickening.sdd/modinfo.lua",
+		"/E/Spring/Games/zkmenu.sdd/LuaMenu/widgets/gui_modoptions_panel.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/liblobby/lobby/lobby.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/liblobby/lobby/interface.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/modinfo.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaMenu/configs/gameConfig/zk/ModOptions.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa8064.38224/ModOptions.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa6212.27655/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa1960.2207/slots.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa1960.665/script.txt",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa1960.49709/project.mission.xml",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa1960.46277/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa6364.44222/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa6364.40011/ModOptions.lua",
+		"/E/Spring/LuaMenu/Config/IGL_data.lua",
+		"/E/Spring/LuaMenu/configs/testingModoptions.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa7324.29504/modinfo.lua",
+		"/E/Spring/games/zk.sdd/ModOptions.lua",
+		"/E/Spring/games/Extended Chicken Options.sdd/ModOptions.lua",
+		"/E/Spring/games/zk.sdd/_ModOptions.lua",
+		"/E/Spring/games/zkmenu.sdd/LuaMenu/configs/gameConfig/zk/ModOptions.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa5884.6962/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa5460.38428/modinfo.lua",
+		"/E/Spring/Games/zkmenu.sdd/LuaMenu/configs/gameConfig/zk/mainConfig.lua",
+		"/E/Spring/Games/zkmenu.sdd/LuaMenu/configs/gameConfig/zk/ModOptions.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/liblobby/lobby/interface_zerok.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaUI/Widgets/gui_chili_chicken.lua",
+		"/E/Spring/LuaUI/Widgets/DrawFire.lua",
+		"/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/object.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Configs/integral_menu_config.lua",
+		"/E/Spring/Games/zkmenu.sdd/LuaMenu/widgets/gui_battle_status_panel.lua",
+		"/E/Spring/games/zk.sdd/LuaRules/Gadgets/unit_spawner.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/Controls/label.lua",
+		"/E/Spring/Games/zkmenu.sdd/libs/chiliui/chili/core.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili/core.lua",
+		"/E/Spring/LuaUI/Widgets/ArmyFormation3.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa1856.32487/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa1856.31049/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa9088.42927/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa8404.1750/modinfo.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/ModOptions.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/units/staticcon.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa4616.47425/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa7112.26582/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa5148.31639/modinfo.lua",
+		"/E/Spring/Games/zk.sdd/units/cloakcon.lua",
+		"/E/Spring/games/zk.sdd/units/staticarty.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa7556.47368/turretlaser.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa2896.2802/modinfo.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_chili_chicken.lua",
+		"/E/Spring/LuaUI/Widgets/split_attack.lua",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/api_chili_widgetselector.lua",
+		"/E/Spring/Disable Heavy Porc.txt",
+		"/H/SETUPS/PROGRAMMATION/Macros AHK/MACRO UTILES/MACRO A UTILISER/DropInZone_LIB/My Zones/Drop Zone 6/notes.txt",
+		"/E/Spring/LuaUI/Widgets/ForceMove.lua",
+		"/E/Spring/LuaUI/Widgets/unit_initial_queue.lua",
+		"/E/Spring/LuaUI/Widgets/cmd_customformations2.lua",
+		"/E/Spring/infolog_full.txt",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa7264.24024/modinfo.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaRules/Gadgets/unit_spawner.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaRules/Gadgets/_unit_spawner.lua",
+		"/E/Spring/CustomModes/zeroWars.json",
+		"/E/Spring/CustomModes/baseZk.json",
+		"/E/Spring/CustomModes/unitLevelUps.json",
+		"/E/Spring/CustomModes/relentlessChicks.json",
+		"/E/Spring/Games/zk.sdd/LuaUI/Widgets/unit_dynamic_avoidance_ex.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/cmd_fire_once.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/unit_show_shooter.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaRules/Gadgets/gadgets.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaRules/Gadgets/unit_script.lua",
+		"/E/Spring/Source/develop/spring/rts/Game/SelectedUnitsAI.cpp",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa4952.27982/modinfo.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/ai_CAI.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/unit_script.lua",
+		"/E/Spring/Games/zk.sdd/LuaRules/Gadgets/unit_antinuke_handler.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa7068.43510/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa8416.46542/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa196.37467/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa6564.33482/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa5768.27117/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa7672.49621/modinfo.lua",
+		"/C/Users/Hel/AppData/Local/Temp/Rar$DIa9176.44483/testingModoptions.lua",
+		"/E/Spring/games/Relentless Chicken.sdd/LuaUI/testingModOptions.lua",
+		"/E/Spring/CustomModes/relentlessChicksHost.json"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 122.0,
+		"where_history":
+		[
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\games\\zk.sdd\\LuaUI\\Widgets\\chili_old\\Controls",
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\Source\\develop\\",
+			"E:\\Spring\\Source\\develop\\spring",
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\Source\\develop\\spring",
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\",
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\Source\\develop\\spring",
+			"E:\\Spring\\Games\\zk.sdd,E:\\Spring\\Games\\zkmenu.sdd",
+			"E:\\Spring\\zk.sdd,E:\\Spring\\zkmenu.sdd",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\zk.sdd",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\Source\\develop",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\Source\\maintenance",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\Source\\maintenance",
+			"E:\\Spring\\build-maintenance",
+			"E:\\Spring\\SpringBuildTest",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\LuaUI\\",
+			"E:\\Spring\\LuaUI\\Widgets",
+			"E:\\Spring\\games\\zk.sdd",
+			"E:\\Spring\\LuaUI",
+			"E:\\Spring\\games\\zk.sdd",
+			"H:\\SETUPS\\PROGRAMMATION\\Macros AHK\\MACRO UTILES\\",
+			"H:\\SETUPS\\PROGRAMMATION\\Macros AHK\\MACRO UTILES\\COLLECTION",
+			"D:\\AutoHotkey",
+			"D:\\Tor Browser\\",
+			"D:\\Tor Browser\\Browser\\TorBrowser\\Data\\Browser\\",
+			"D:\\Tor Browser\\Browser\\TorBrowser\\Data\\Browser\\Profile.mix",
+			"D:\\Tor Browser\\Browser\\TorBrowser\\Data\\Browser\\Profile.mix\\testing",
+			"D:\\Tor Browser\\Browser\\TorBrowser\\Data\\Browser",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"D:\\PROGRAMMATION\\Editeur Java\\sublime_text_build_4121_x64",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring",
+			"E:\\Spring\\LuaUI\\Widgets,E:\\Spring\\games\\zk.sdd\\",
+			"E:\\Spring\\Source\\maintenance\\spring"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"dockable",
+			"children_hidden",
+			"OnParentPost",
+			":Hide",
+			"Resize",
+			"GetTextWidth",
+			"caption",
+			"STATS",
+			"center",
+			"'center'",
+			"linecenter",
+			"_lines",
+			"_AutoArrangeAbscissa",
+			"centerItems",
+			"STATS",
+			"centerItems",
+			"Grid",
+			"specialPowerCooldown",
+			"Spring.SendLuaRulesMsg",
+			"catching up",
+			"Catching up",
+			"lag",
+			"GetHasLag",
+			"DIRNAME",
+			"LUAUI_DIRNAME",
+			"varFromSynced",
+			"averageLag",
+			"buildicon",
+			"jobsInSynced",
+			"Synced",
+			"SendToSynced",
+			"SenToSynced",
+			"GameFrame",
+			"data",
+			"ChickenEvent",
+			"spairs",
+			"speed1",
+			"eggDecayTime",
+			"DistributeSpawn",
+			"delaySpawn",
+			"checkFrequency",
+			"decayEgg",
+			"eggDecay",
+			"DelaySpawn",
+			".orders",
+			"spCreate",
+			"DelaySpawn",
+			"spCreateUnit",
+			"DistributeOrders",
+			"chickenBirths",
+			"DelaySpawn",
+			"spCreateUnit",
+			"SpawnBurrow",
+			"ChooseChicken",
+			"eggDecay",
+			"eggs",
+			"spawnEgg",
+			"labelStack",
+			"Resize",
+			"CheckPing",
+			"gaiaTea",
+			"unit_spawn",
+			"leaderID",
+			"hosting",
+			"UpdateEntryData",
+			"UpdateAllyTeamActivity",
+			"UpdateTeamActivity",
+			"GetPlayerActivity",
+			"lag",
+			"Update",
+			"chick",
+			"hourtimer",
+			"chick",
+			"hourTimer",
+			"GetHourTimer",
+			"hourTimer",
+			"gadgetHandler:",
+			"GamePaused",
+			"speed",
+			"lagging",
+			"dynaCaptions",
+			"mode tooltip",
+			"constIndex",
+			"Lagging",
+			"lagging",
+			"check_frequency",
+			"dynaCaptions",
+			"UpdateToolTipAnger",
+			"captionCache",
+			"tooltipCache",
+			"dynamics",
+			"UpdateToolTipTech",
+			"tooltipFuncs",
+			"dynaCaptions",
+			"tooltipFuncs",
+			"chickentTv",
+			"chick",
+			"AddChild",
+			"background",
+			"labelStack",
+			"chick",
+			"bext_tech",
+			"label_mode",
+			"label_next_tech",
+			"label_tech",
+			"label_burrows",
+			"label_chickens",
+			"label_anger",
+			"label_aggro",
+			"chickenTV",
+			":Select",
+			"selectable",
+			"logY",
+			"Focus",
+			"FocusUpdate",
+			"BringToFront",
+			"Focus",
+			"SetFocus",
+			"update layout",
+			"_interactedTime",
+			"_SetSelection",
+			"OnResize",
+			"CallListeners",
+			"OnResize",
+			"Resize",
+			"OnScroll",
+			"controls",
+			"Copy"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"spSendLuaRulesMsg",
+			"CheckPings",
+			"checkFrequency",
+			"anger",
+			"cache.caption",
+			"cache.tooltip",
+			"live.tooltip",
+			"tech",
+			"dynamics",
+			"chickenTv.skin",
+			"chickenTv.stack",
+			"next_tech",
+			"chickenTv.mode",
+			"chickenTv.bext_tech",
+			"chickenTv.tech",
+			"chickenTv.burrows",
+			"chickenTv.chickens",
+			"chickenTv.anger",
+			"chickenTv.aggro",
+			"chickenTv",
+			"lineID",
+			"table.shallowcopy",
+			"chickenTVFont",
+			"chickenTV",
+			"UpdateAll",
+			"WriteChiliStatics",
+			"RoundTrim",
+			"roundtrim",
+			"UpdateCaptions",
+			"validsym",
+			"symisvalid",
+			"getclosure",
+			"getsym",
+			"UpdateModVars",
+			"varIndex",
+			"constIndex",
+			"code",
+			"new_text",
+			"CommBlk",
+			"commBlk",
+			"UpdateToolTipChickens",
+			"UpdateToolTipAnger",
+			"UpdateToolTipTech",
+			"coloredChicks",
+			"tooltipUpdate",
+			"tooltipUpate",
+			"max",
+			"min",
+			"floor",
+			"spGetGameRulesParam",
+			"tobool",
+			"defensePerMin",
+			"tobool",
+			"List",
+			"Count",
+			"\\1 = ''",
+			"\\1 = '',",
+			"    '\\1',",
+			"    '\\1'",
+			"    \\1",
+			"\\1 123",
+			"123",
+			"$1 123",
+			"    \\1",
+			"    $1",
+			"consts_content",
+			"win_debug_consts",
+			"button1",
+			"RetrieveModVars",
+			"modVars",
+			"ModVars",
+			"win_debug_vars",
+			"round",
+			"WG.chicken_global_command_button",
+			"TrimZeroes",
+			"isMod",
+			"_mod",
+			"techTimeMult_mult",
+			"diff_order",
+			"techTimeMult",
+			"",
+			"label_next_tech",
+			"spGetGameSeconds",
+			"techMalusMultiplayer",
+			"techModByAggro",
+			"totalTechMod",
+			"techStack",
+			"currentOrder",
+			"spGetFactoryCommands",
+			"params",
+			"team",
+			"cmd",
+			"id",
+			"dataDebug",
+			"debug",
+			"mExtra = mExtra - METAL_BALANCE[b.recM] * b.buildSpeed",
+			"CF2_MatchUnitsToNodes",
+			"MatchUnitsToNodes",
+			"totalChickSp",
+			"ceil",
+			"min",
+			"background",
+			"DelayOrder",
+			"Echo",
+			"spGetUnitRulesParam",
+			"spGetGameRulesParam",
+			"spGetGroundHeight",
+			"spDestroyFeature",
+			"spCreateFeature",
+			"spGetModOptions",
+			"spIsGameOver",
+			"spGetUnitIsDead",
+			"max",
+			"spDestroyUnit",
+			"spGetUnitNearestEnemy",
+			"",
+			"spTestBuildOrder",
+			"floor",
+			"spEditUnitCmdDesc",
+			"spFindUnitCmdDesc",
+			"spSetUnitAlwaysVisible",
+			"spSetGameRulesParam",
+			"spGetTeamUnitsCounts",
+			"Very Eazy",
+			"params",
+			"teamID",
+			"GetSelectedUnitsCount",
+			"heights"
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "LuaRules/Configs/spawn_defs.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22808,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9563,
+								9563
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3283.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "LuaRules/Gadgets/unit_spawner.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 66854,
+						"regions":
+						{
+							"bookmarks":
+							{
+								"flags": 144,
+								"icon": "bookmark",
+								"regions":
+								[
+									[
+										8115,
+										8115
+									],
+									[
+										56190,
+										56190
+									],
+									[
+										65590,
+										65590
+									]
+								],
+								"scope": "bookmarks"
+							}
+						},
+						"selection":
+						[
+							[
+								36146,
+								36166
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6480.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "LuaUI/Widgets/gui_chili_chicken.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 51329,
+						"regions":
+						{
+							"bookmarks":
+							{
+								"flags": 144,
+								"icon": "bookmark",
+								"regions":
+								[
+									[
+										5534,
+										5534
+									]
+								],
+								"scope": "bookmarks"
+							}
+						},
+						"selection":
+						[
+							[
+								15181,
+								15190
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6810.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "LuaUI/Widgets/chili_old/Controls/editbox.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24615,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18738,
+								18738
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 7001.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/textbox.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1432,
+						"regions":
+						{
+						},
+						"selection":
+						[
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 495.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili_old/Controls/object.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 22213,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								20449,
+								20449
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 12640.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10347,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										128,
+										135
+									],
+									[
+										183,
+										190
+									],
+									[
+										210,
+										217
+									],
+									[
+										221,
+										228
+									],
+									[
+										260,
+										267
+									],
+									[
+										270,
+										277
+									],
+									[
+										358,
+										365
+									],
+									[
+										458,
+										465
+									],
+									[
+										500,
+										507
+									],
+									[
+										533,
+										540
+									],
+									[
+										567,
+										574
+									],
+									[
+										674,
+										681
+									],
+									[
+										767,
+										774
+									],
+									[
+										817,
+										824
+									],
+									[
+										862,
+										869
+									],
+									[
+										889,
+										896
+									],
+									[
+										903,
+										910
+									],
+									[
+										942,
+										949
+									],
+									[
+										955,
+										962
+									],
+									[
+										980,
+										987
+									],
+									[
+										996,
+										1003
+									],
+									[
+										1048,
+										1055
+									],
+									[
+										1116,
+										1123
+									],
+									[
+										1143,
+										1150
+									],
+									[
+										1172,
+										1179
+									],
+									[
+										1236,
+										1243
+									],
+									[
+										1428,
+										1435
+									],
+									[
+										1537,
+										1544
+									],
+									[
+										1639,
+										1646
+									],
+									[
+										1697,
+										1704
+									],
+									[
+										1724,
+										1731
+									],
+									[
+										1756,
+										1763
+									],
+									[
+										1793,
+										1800
+									],
+									[
+										1825,
+										1832
+									],
+									[
+										1893,
+										1900
+									],
+									[
+										2035,
+										2042
+									],
+									[
+										2176,
+										2183
+									],
+									[
+										2207,
+										2214
+									],
+									[
+										2276,
+										2283
+									],
+									[
+										2367,
+										2374
+									],
+									[
+										2423,
+										2430
+									],
+									[
+										2450,
+										2457
+									],
+									[
+										2461,
+										2468
+									],
+									[
+										2500,
+										2507
+									],
+									[
+										2510,
+										2517
+									],
+									[
+										2551,
+										2558
+									],
+									[
+										2673,
+										2680
+									],
+									[
+										2725,
+										2732
+									],
+									[
+										2818,
+										2825
+									],
+									[
+										2852,
+										2859
+									],
+									[
+										2869,
+										2876
+									],
+									[
+										2924,
+										2931
+									],
+									[
+										2970,
+										2977
+									],
+									[
+										3105,
+										3112
+									],
+									[
+										3246,
+										3253
+									],
+									[
+										3272,
+										3279
+									],
+									[
+										3283,
+										3290
+									],
+									[
+										3342,
+										3349
+									],
+									[
+										3458,
+										3465
+									],
+									[
+										3678,
+										3690
+									],
+									[
+										3790,
+										3802
+									],
+									[
+										3840,
+										3852
+									],
+									[
+										3900,
+										3912
+									],
+									[
+										3989,
+										4001
+									],
+									[
+										4067,
+										4079
+									],
+									[
+										4194,
+										4206
+									],
+									[
+										4248,
+										4260
+									],
+									[
+										4383,
+										4395
+									],
+									[
+										4633,
+										4641
+									],
+									[
+										4712,
+										4720
+									],
+									[
+										4746,
+										4754
+									],
+									[
+										4806,
+										4814
+									],
+									[
+										4833,
+										4841
+									],
+									[
+										4963,
+										4971
+									],
+									[
+										5054,
+										5062
+									],
+									[
+										5080,
+										5088
+									],
+									[
+										5188,
+										5196
+									],
+									[
+										5215,
+										5223
+									],
+									[
+										5318,
+										5326
+									],
+									[
+										5404,
+										5412
+									],
+									[
+										5431,
+										5439
+									],
+									[
+										5534,
+										5542
+									],
+									[
+										5631,
+										5639
+									],
+									[
+										5657,
+										5665
+									],
+									[
+										5699,
+										5707
+									],
+									[
+										5733,
+										5741
+									],
+									[
+										5759,
+										5767
+									],
+									[
+										5868,
+										5876
+									],
+									[
+										5964,
+										5972
+									],
+									[
+										6063,
+										6071
+									],
+									[
+										6159,
+										6167
+									],
+									[
+										6251,
+										6259
+									],
+									[
+										6277,
+										6285
+									],
+									[
+										6303,
+										6311
+									],
+									[
+										6330,
+										6338
+									],
+									[
+										6357,
+										6365
+									],
+									[
+										6452,
+										6460
+									],
+									[
+										6478,
+										6486
+									],
+									[
+										6520,
+										6528
+									],
+									[
+										6547,
+										6555
+									],
+									[
+										6573,
+										6581
+									],
+									[
+										6600,
+										6608
+									],
+									[
+										6627,
+										6635
+									],
+									[
+										6714,
+										6722
+									],
+									[
+										6802,
+										6810
+									],
+									[
+										6897,
+										6905
+									],
+									[
+										6992,
+										7000
+									],
+									[
+										7086,
+										7094
+									],
+									[
+										7179,
+										7187
+									],
+									[
+										7266,
+										7274
+									],
+									[
+										7292,
+										7300
+									],
+									[
+										7385,
+										7393
+									],
+									[
+										7477,
+										7485
+									],
+									[
+										7572,
+										7580
+									],
+									[
+										7668,
+										7676
+									],
+									[
+										7763,
+										7771
+									],
+									[
+										7856,
+										7864
+									],
+									[
+										7960,
+										7968
+									],
+									[
+										8046,
+										8054
+									],
+									[
+										8139,
+										8147
+									],
+									[
+										8235,
+										8243
+									],
+									[
+										8262,
+										8270
+									],
+									[
+										8288,
+										8296
+									],
+									[
+										8315,
+										8323
+									],
+									[
+										8341,
+										8349
+									],
+									[
+										8426,
+										8434
+									],
+									[
+										8452,
+										8460
+									],
+									[
+										8563,
+										8571
+									],
+									[
+										8590,
+										8598
+									],
+									[
+										8692,
+										8700
+									],
+									[
+										8719,
+										8727
+									],
+									[
+										8817,
+										8825
+									],
+									[
+										8844,
+										8852
+									],
+									[
+										8929,
+										8937
+									],
+									[
+										9018,
+										9026
+									],
+									[
+										9044,
+										9052
+									],
+									[
+										9086,
+										9094
+									],
+									[
+										9112,
+										9120
+									],
+									[
+										9154,
+										9162
+									],
+									[
+										9180,
+										9188
+									],
+									[
+										9285,
+										9293
+									],
+									[
+										9371,
+										9379
+									],
+									[
+										9470,
+										9478
+									],
+									[
+										9497,
+										9505
+									],
+									[
+										9588,
+										9596
+									],
+									[
+										9616,
+										9624
+									],
+									[
+										9705,
+										9713
+									],
+									[
+										9732,
+										9740
+									],
+									[
+										9809,
+										9817
+									],
+									[
+										9892,
+										9900
+									],
+									[
+										9985,
+										9993
+									],
+									[
+										10034,
+										10042
+									],
+									[
+										10064,
+										10072
+									],
+									[
+										10093,
+										10101
+									],
+									[
+										10190,
+										10198
+									],
+									[
+										10276,
+										10284
+									],
+									[
+										10302,
+										10310
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								4673,
+								4673
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 4,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1590.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/font.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6721,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								518,
+								531
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1755.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/screen.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7772,
+						"regions":
+						{
+						},
+						"selection":
+						[
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/control.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30240,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								558,
+								585
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 14715.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/scrollpanel.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11031,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								303,
+								330
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/stackpanel.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								227,
+								253
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/LayoutPanel.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 27186,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15088,
+								15088
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8475.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/window.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1936,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								92,
+								111
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "/E/Spring/Games/zk.sdd/LuaUI/Widgets/gui_contextmenu.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 70748,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								47205,
+								47205
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 21870.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "/E/Spring/Games/zk.sdd/LuaUI/Widgets/chili_old/Controls/label.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2502,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								201,
+								217
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 405.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "/E/Spring/games/zk.sdd/LuaUI/Widgets/chili_old/Controls/grid.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 156,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7,
+								18
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "/E/Spring/Games/zkmenu.sdd/libs/chiliui/chili/controls/layoutpanel.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 27294,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								20578,
+								20593
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 10375.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "/E/Spring/games/zkmenu.sdd/libs/chiliui/chili/controls/image.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4095,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2563,
+								2563
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 20,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "/E/Spring/games/zkmenu.sdd/libs/chiliui/chili/controls/button.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1478,
+						"regions":
+						{
+						},
+						"selection":
+						[
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 352.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "LuaRules/Gadgets/unit_script.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 26952,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								19482,
+								19544
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 9277.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 23,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "units/staticcon.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2955,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2102,
+								2102
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 22,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "/E/Spring/CustomModes/relentlessChicksHost.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 641,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								492,
+								492
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 24,
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"file": "ModOptions.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 27206,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								23007,
+								23007
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 12235.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 21,
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "LuaUI/Configs/chickengui_config.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 915,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								210,
+								230
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 38.0
+	},
+	"input":
+	{
+		"height": 47.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 32.0
+	},
+	"output.find_results":
+	{
+		"height": 81.0
+	},
+	"output.jotter":
+	{
+		"height": 102.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 50.0
+	},
+	"output.xdebug":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "RelentlessProject.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"xdebug":
+		{
+			"hide_conflict": false
+		}
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 191.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
