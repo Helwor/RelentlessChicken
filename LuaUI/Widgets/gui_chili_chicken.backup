@@ -1,0 +1,1528 @@
+--[[
+for key, value in pairs(widget.difficulties[diff_order[spGetGameRulesParam("difficulty")] ]) do
+		widget.key = value
+end
+widget.difficulties = nil
+]]
+
+
+function widget:GetInfo()
+	return {
+		name      = "Chili Chicken Panel",
+		desc      = "Indian cuisine",
+		author    = "quantum, KingRaptor, rewrote Helwor",
+		date      = "May 04, 2008",
+		license   = "GNU GPL, v2 or later",
+		layer     = -9,
+		enabled   = true  --  loaded by default?
+	}
+end
+
+-- totally broken: claims it changes the data but doesn't!
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+if (not Spring.GetGameRulesParam("difficulty")) then
+	return false
+end
+
+local f = Game.modName:match('dev') and  VFS.Include("LuaUI\\Widgets\\UtilsFunc.lua")
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+VFS.Include("LuaRules/Utilities/tobool.lua")
+
+local Spring          = Spring
+local gl, GL          = gl, GL
+local widgetHandler   = widgetHandler
+local math            = math
+local floor			  = math.floor
+local min			  = math.min
+local max			  = math.max
+local table           = table
+
+local tobool = Spring.Utilities.tobool
+local spGetGameRulesParam = Spring.GetGameRulesParam
+include('keysym.lua')
+local ESCAPE = KEYSYMS.ESCAPE
+KEYSYMS = nil
+
+local spGetGameSeconds = Spring.GetGameSeconds
+local Echo = Spring.Echo
+
+local panelFont		  = "LuaUI/Fonts/komtxt__.ttf"
+local waveFont        = LUAUI_DIRNAME.."Fonts/Skrawl_40"
+local panelTexture    = LUAUI_DIRNAME.."Images/panel.tga"
+
+local viewSizeX, viewSizeY = 0,0
+local curTime = spGetGameSeconds()
+local red             = "\255\255\001\001"
+local white           = "\255\255\255\255"
+local green			  = "\255\001\255\001"
+local blue			  = "\255\100\100\255"
+local lightblue		  = "\255\150\200\255"
+local yellow		  = "\255\255\255\001"
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local modVars, modConsts, modOnce  = {}, {}, {}
+local varDescs
+local WritePair, WriteValue
+local constSTR =""
+
+local RetrieveModVars
+local rules
+local waveMessage
+local waveSpacingY    = 7
+local waveY           = 800
+local waveSpeed       = 0.2
+local waveCount       = 0
+local waveTime
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+-- include the unsynced (widget) config data
+local file              = LUAUI_DIRNAME .. 'Configs/chickengui_config.lua'
+local configs           = VFS.Include(file, nil, VFS.ZIP)
+local roostName         = configs.roostName
+local chickenColorSet   = configs.colorSet
+
+VFS.Include("LuaRules/Configs/spawn_defs.lua", nil, VFS.ZIP)
+local difficulty = difficulties[diff_order[spGetGameRulesParam("difficulty")]]
+local chickenTypes = difficulty.chickenTypes
+
+local chickenByTime, coloredChicks = {}, {}
+
+
+local eggs = tobool(Spring.GetModOptions().eggs)
+local speed = tobool(Spring.GetModOptions().speedchicken)
+local relentless = tobool(Spring.GetModOptions().relentless)
+local hidePanel = tobool(Spring.GetModOptions().chicken_hidepanel)
+local noWaveMessages = tobool(Spring.GetModOptions().chicken_nowavemessages)
+
+
+-- include the synced (gadget) config data
+
+
+
+-- totally broken: claims it changes the data but doesn't!
+--[[
+for key, value in pairs(widget.difficulties[diff_order[spGetGameRulesParam("difficulty")] ]) do
+		widget.key = value
+end
+widget.difficulties = nil
+]]
+
+
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+local Chili
+local Button
+local Label
+local Window
+local Panel
+local TextBox
+local Image
+local Progressbar
+local Control
+local Font
+
+-- elements
+local window, labelStack, background
+local global_command_button
+local label_anger, label_chickens, label_burrows, label_aggro, label_tech, label_mode
+
+local label_next_tech, debug_button, win_debug_consts, consts_content
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+fontHandler.UseFont(waveFont)
+local waveFontSize   = fontHandler.GetFontSize()
+
+--------------------------------------------------------------------------------
+-- utility functions
+--------------------------------------------------------------------------------
+
+local function GetCount(type)
+	local t,n = {},0
+	local total = 0
+	for chickenName,colorInfo in pairs(chickenColorSet) do
+		total = total + modVars[chickenName..type]
+	end
+	return total
+end
+
+-- I'm sure there's something to do this automatically but ehhh...
+local function FormatTime(s)
+	if not s then return '' end
+	s = floor(s)
+	local neg = (s < 0)
+	if neg then s = -s end	-- invert it here and add the minus sign later, since it breaks if we try to work on it directly
+	local m = floor(s/60)
+	s = s%60
+	local h = floor(m/60)
+	m = m%60
+	if s < 10 then s = "0"..s end
+	if m < 10 then m = "0"..m end
+	local str = (h..":"..m..":"..s)
+	if neg then str = "-"..str end
+	return str
+end
+
+-- explanation for string.char: http://springrts.com/phpbb/viewtopic.php?f=23&t=24952
+local function GetColor(percent)
+	local midpt = (percent > 50)
+	local r, g
+	if midpt then
+		r = 255
+		g = floor(255*(100-percent)/50)
+	else
+		r = floor(255*percent/50)
+		g = 255
+	end
+	return string.char(255,r,g,0)
+end
+
+local function GetColorAggression(value)
+	local r,g,b
+	if (value<=-1) then
+		r = 255
+		g = max(255 + value*25, 0)
+		b = max(255 + value*25, 0)
+	elseif (value>=1) then
+		r = max(255 - value*25, 0)
+		g = 255
+		b = max(255 - value*25, 0)
+	else
+		r=255
+		g=255
+		b=255
+	end
+	return string.char(255,r,g,b)
+end
+
+
+
+
+for name in pairs(chickenTypes) do
+	table.insert(chickenByTime,name)
+end
+table.sort(chickenByTime,
+	function(nameA,nameB)
+		return chickenTypes[nameA].time and chickenTypes[nameB].time and chickenTypes[nameA].time < chickenTypes[nameB].time
+	end
+)
+for chickenName, color in pairs(chickenColorSet) do
+	coloredChicks[chickenName] = color .. Spring.Utilities.GetHumanName(UnitDefNames[chickenName]) .. "\008"
+end
+
+
+
+local function CalculateFutureTechMod()
+	local waveDuration = (modConsts.chickenSpawnRate)
+	local waveDurationMinutes = waveDuration / 60
+	local aggro = modVars.humanAggro
+	local techMod = -aggro * modConsts['humanAggroTechTime'..(aggro>0 and 'Regress' or 'Progress')]
+	return (techMod + modVars.techMalusMultiplayer) * waveDurationMinutes
+end
+
+local function CalculateQueenTimeReduction()
+	local aggro = modVars.humanAggro
+	aggro = min( max(aggro, modConsts.humanAggroQueenTimeMin), modConsts.humanAggroQueenTimeMax)
+	local reduction = modConsts.burrowQueenTime*modConsts.humanAggroQueenTimeFactor*aggro
+	return max(reduction, 0)
+end
+
+
+local function UpdateToolTipTech()
+	label_tech.tooltip = "Tech mod due to aggro will be: "..("%.1f"):format(CalculateFutureTechMod()) .." seconds at next wave."
+		..'\n'.."Each burrow killed reduces chicken tech time by "..("%.1f"):format(modVars.burrowRegressTime).. " seconds"
+end
+
+local function UpdateToolTipAnger()
+	local miniQueenTime = modConsts.miniQueenTime and modConsts.miniQueenTime[1]
+	local tooltipAnger = "Killing a burrow at current aggro accelerate the arriving of the queen by ".. ("%.1f"):format(CalculateQueenTimeReduction()) .." seconds."
+	if miniQueenTime then tooltipAnger = tooltipAnger .. "\nDragons arrive at ".. FormatTime(floor(modConsts.queenTime * miniQueenTime)) .. " (".. floor(miniQueenTime*100) .."%)" end
+	label_anger.tooltip = tooltipAnger
+end
+local function UpdateToolTipChickens()
+	local breakdown = ""
+	for _,name in ipairs(chickenByTime) do
+		breakdown = breakdown .. "\n"..coloredChicks[name]..": \255\0\255\0"..modVars[name.."Count"].."\008/\255\255\0\0"..modVars[name.."Kills"]
+	end
+	label_chickens.tooltip = "Chickens spawn every ".. modConsts.chickenSpawnRate.." seconds\n"..breakdown
+end
+
+-- gets the synced config setting for current difficulty
+local function GetDifficultyValue(value)
+	return difficulty[value] or widget[value]
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local tooltipAnger, tooltipBurrowRespawn, tooltipBurrowTech, tooltipBurrowTech2 = '', '', '', ''
+
+local function WriteTooltipsOnce()
+
+	tooltipBurrowRespawn = "When killed, each burrow has a ".. floor(modConsts.burrowRespawnChance*100) .."% chance of respawning"
+	-- label_aggro.tooltip = "Each burrow killed increases aggression rating by "..("%.1f"):format(GetDifficultyValue('humanAggroPerBurrow')/modVars.malus).."\n"..
+	label_aggro.tooltip = "Each burrow killed increases aggression rating by "..("%.1f"):format(modVars.humanAggroPerBurrow)
+	.."\n".."Aggression rating decreases by "..("%.2f"):format(modConsts.humanAggroDecay).." per minute of game time"
+	..(	
+		modConsts.humanAggroTechTimeRegress>0
+		and "\n".."if positive, chicken tech regress per "..("%.1f"):format(modConsts.humanAggroTechTimeRegress).."sec per point at each wave"
+		or ''
+	)	
+	.."\n".."if negative, chicken tech accelerate per "..("%.1f"):format(modConsts.humanAggroTechTimeProgress).."sec per point per minute at each wave"
+	
+	tooltipBurrowTech2 = "Tech progress floor = " .. floor(modConsts.techTimeFloorFactor*100) .."% of game time"
+end
+
+
+-- done every second
+local UpdateAnger,UpdateNextTech, UpdateDebugVars
+do
+	local nextTech, nextTechName, nextTechColor
+	UpdateNextTech = function()
+		local newNextTech =  modVars.nextTech
+		if newNextTech~=nextTech then
+			nextTech = newNextTech
+			local nextTechDef = UnitDefNames[nextTech]
+			nextTechName = nextTechDef and nextTechDef.humanName or 'none'
+			nextTechColor = nextTechName=='none' and '' or chickenColorSet[nextTech]
+		end
+		local currTech, grace = modVars.currTech, modVars.gracePeriod
+		local remaining = grace>curTime and grace-curTime or modVars.nextTechTime-currTech
+		local currTechColor = GetColorAggression((curTime-currTech)/120)
+		label_next_tech:SetCaption(
+			"Current tech : "..currTechColor..FormatTime(currTech)
+			.."\n"..nextTechColor..nextTechName.."\008 in "..FormatTime(remaining)
+		)
+	end
+	UpdateAnger = function()
+		local saveOffset = (modVars.totalSaveGameFrame or 0) / Game.gameSpeed
+		local angerPercent = ((curTime + saveOffset) / (modVars.queenTime + saveOffset) * 100)
+		local angerString = "Hive Anger : ".. GetColor( min(angerPercent, 100) )..floor(angerPercent).."% \008"
+		if (angerPercent < 100) and (not endlessMode) then angerString = angerString .. "("..FormatTime(modVars.queenTime - curTime) .. " left)" end
+		label_anger:SetCaption(angerString)
+
+		if label_anger.state.hovered then
+			UpdateToolTipAnger()
+		end
+	end
+	UpdateDebugVars = function()
+		local all_vars = blue.."Variables modified by the game situation:\008"
+		..'\ncurrentTime: '..curTime
+		local alinea = '\n\t\t'
+		Echo("modVars.queenTime is ", modVars.queenTime,os.clock(),spGetGameRulesParam("queenTime"))
+		for _, param in ipairs(rules) do
+			if not (modOnce[param] or param:match('Count') or param:match('Kill')) then
+
+				local desc = varDescs[param]
+				local line = '\n'..' - '..param..' = '..WriteValue(modVars[param], blue)
+				if desc then
+					-- line = line..('\t'):rep(15-floor(line:len()/4))..' => '..desc
+					line = line..alinea..' => '..desc
+				end
+				all_vars = all_vars..line
+			end
+		end
+		vars_content:SetCaption(all_vars)
+	end
+end
+
+-- done every 2 seconds
+local function UpdateRules()
+	-- write info
+
+	local chickenCount, chickenKills = GetCount("Count"), GetCount("Kills")
+	label_chickens:SetCaption("Chickens alive/killed : \255\0\255\0"..chickenCount.."\008/\255\255\0\0"..chickenKills)
+	if label_chickens.state.hovered then
+		UpdateToolTipChickens()
+	end
+	label_burrows:SetCaption("Burrows alive/killed : \255\0\255\0"..modVars[roostName .. "Count"].."\008/\255\255\0\0"..modVars[roostName .. "Kills"])
+
+	label_aggro:SetCaption("Player aggression rating: "..GetColorAggression(modVars["humanAggro"])..("%.3f"):format(modVars["humanAggro"]))
+	
+	label_tech:SetCaption("Tech progress modifier : "..FormatTime(modVars["totalTechMod"]))
+	if label_tech.state.hovered then
+		UpdateToolTipTech()
+	end
+	-- tooltips, antilag
+
+	
+		
+	local techTime = modVars["totalTechMod"]
+	
+	label_burrows.tooltip = "Burrow spawn time (at "..modVars[roostName .. "Count"].." count): ".. ("%.1f"):format(modVars.burrowSpawnTime) .." seconds\n"..
+							tooltipBurrowRespawn
+	
+	if (modVars.lagging == 1) then label_mode:SetCaption(red.."Anti-Lag Enabled\008")
+	else
+		local substr = ''
+		if relentless then
+			substr = "Relentless"
+		end
+		if speed then
+			substr = substr..", Speed"
+		end
+		if eggs then
+			substr = ", Eggs"
+		end
+		if substr:sub(1,1)==',' then
+			substr = substr:sub(2,substr:len()-1)
+		end
+		if substr:len()>0 then
+			substr = '('..substr..')'
+		end
+		label_mode:SetCaption('Mode '..configs.difficulties[modVars.difficulty] ..'\n'.. substr)
+	end
+end
+
+--------------------------------------------------------------------------------
+-- wave messages
+--------------------------------------------------------------------------------
+local function WaveRow(n)
+	return n*(waveFontSize+waveSpacingY)
+end
+
+local function MakeLine(chicken, n)
+	local humanName = Spring.Utilities.GetHumanName(UnitDefNames[chicken])
+	local color = chickenColorSet[chicken] or ""
+	return color..humanName.." x"..n
+end
+
+function ChickenEvent(chickenEventArgs)
+	if (chickenEventArgs.type == "wave") then
+		if noWaveMessages then
+			return
+		end
+		
+		local chicken1Name, chicken2Name, chickenSpName, chicken1Number, chicken2Number, chickenSpNumber = unpack(chickenEventArgs)
+		if (modVars[roostName .. 'Count'] < 1) then
+			return
+		end
+		waveMessage    = {}
+		waveCount      = waveCount + 1
+		local n_line = 1
+		waveMessage[n_line] = "Wave "..waveCount
+		-- Spring.Echo('Wave:'..waveCount,unpack(chickenEventArgs))
+		for i=1,3 do
+			local name,number = chickenEventArgs[i], chickenEventArgs[i+3]
+			if number>0 then
+				n_line = n_line + 1
+				waveMessage[n_line] = MakeLine(name, number)
+			end
+		end
+	
+		waveTime = Spring.GetTimer()
+		
+	-- table.foreachi(waveMessage, print)
+	-- local t = spGetGameSeconds()
+	-- print(string.format("time %d:%d", t/60, t%60))
+	-- print""
+	elseif (chickenEventArgs.type == "burrowSpawn") then
+		RetrieveModVars()
+		UpdateRules()
+	elseif (chickenEventArgs.type == "miniQueen") then
+		waveMessage    = {}
+		waveMessage[1] = "Here be dragons!"
+		waveTime = Spring.GetTimer()
+	elseif (chickenEventArgs.type == "queen") then
+		waveMessage    = {}
+		waveMessage[1] = "The Hive is angered!"
+		waveTime = Spring.GetTimer()
+	elseif (chickenEventArgs.type == "refresh") then
+		curTime = spGetGameSeconds()
+		RetrieveModVars()
+		UpdateRules()
+		UpdateAnger()
+	end
+end
+
+function widget:DrawScreen()
+	viewSizeX, viewSizeY = gl.GetViewSizes()
+	if (waveMessage)  then
+		local t = Spring.GetTimer()
+		fontHandler.UseFont(waveFont)
+		local waveY = viewSizeY - (relentless and 0 or Spring.DiffTimers(t, waveTime)*waveSpeed*viewSizeY)
+		if (waveY > 0) then
+			for i=1,#waveMessage do
+				fontHandler.DrawCentered(waveMessage[i], viewSizeX/2, waveY-WaveRow(i))
+			end
+		else
+			waveMessage = nil
+			waveY = viewSizeY
+		end
+	end
+end
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+function widget:KeyPress(key)
+	if key == ESCAPE then 
+		if win_debug_consts.visible then
+			win_debug_consts:Hide()
+			return true
+		elseif win_debug_vars.visible then
+			win_debug_vars:Hide()
+			return true
+		end
+	end
+end
+
+function widget:Initialize()
+	for _,rule in ipairs(rules) do
+		modVars[rule] = spGetGameRulesParam(rule)
+	end
+	for k,v in pairs(base_values) do
+		modConsts[k] = v
+		if not widget[k] then
+			widget[k] = v
+		end
+	end
+
+	for param,v in pairs(difficulty) do
+		if param~='supporters' and param~='defenders' and param~='specialPowers' and param~='chickenTypes' and param~='supporters' and param~='defenders' then
+			modConsts[param] = v
+		end
+	end
+
+	local alinea = '\n\t\t'
+
+	constSTR = lightblue..'NON BASE VALUES\008\n'
+	..'\n'..lightblue..'lightblue\008:'..' value modified\\initialized at game start for the last time,\n mainly because of player count involved in them.'
+	for param,v in pairs(modVars) do
+		if not modConsts[param] and modOnce[param] then
+			local desc = varDescs[param]
+			local line = '\n - '..WritePair(param, v, lightblue)
+			if desc then
+				-- line = line..('\t'):rep(15-floor(line:len()/4))..' => '..desc
+				line = line..alinea..' => '..desc
+			end
+			constSTR = constSTR..line
+		end
+	end
+	constSTR = constSTR..'\n\n'..'<<<<< Values below can be set by Mod Options >>>>>\n'
+	constSTR = constSTR..'\n\n'..'All values that have '..yellow..'yellow\008 or '..green..'green\008 values can be changed with ModOptions'.. '\n'
+	constSTR = constSTR..'\n'..green..'base values:\008 in '..green..'green '..'\008 modified by mode and difficulty'
+	..'\ncompared to their original values in '..yellow..'yellow.\008'
+	..'\nin parenthesis are their past history'
+	..'\nexcept for QUEENTIME, none of those values will change during game time'
+	for param,v in pairs(difficulty) do
+		if param~='supporters' and param~='defenders' and param~='specialPowers' and param~='chickenTypes' and param~='supporters' and param~='defenders' then
+			local desc = constDescs[param]
+			local live = not modOnce[param] and (modVars[param] and WritePair(param, modVars[param], blue)..' ('..WriteValue(v, green)..')')
+			local once = live or (modOnce[param] and WritePair(param, modVars[param], lightblue)..' ('..WriteValue(v, green)..')')
+			local line = '\n - '..(once or WritePair(param, v, green))..' ('..WriteValue(base_values[param], yellow)..')'
+			if desc then
+				-- line = line..('\t'):rep(15-floor(line:len()/4))..' => '..desc
+				line = line..alinea..' => '..desc
+			end
+			constSTR = constSTR..line
+		end
+	end
+	constSTR = constSTR..'\n'..yellow..'base values unchanged:\008'
+	for param,v in pairs(modConsts) do
+		if param~='supporters' and param~='defenders' and param~='specialPowers' and param~='chickenTypes' and param~='supporters' and param~='defenders' then
+			if not difficulty[param] then
+				local desc = constDescs[param]
+				local live = not modOnce[param] and (modVars[param] and WritePair(param, modVars[param], blue)..' ('..WriteValue(v, green)..')')
+				local once = live or (modOnce[param] and WritePair(param, modVars[param], lightblue)..' ('..WriteValue(v, yellow)..')')
+				local line = '\n - '..(once or WritePair(param, v, yellow))
+				if desc then
+					-- line = line..('\t'):rep(15-floor(line:len()/4))..' => '..desc
+					line = line..alinea..' => '..desc
+				end
+				constSTR = constSTR..line
+			end
+		end
+	end
+
+	-- for _, param in ipairs(rules) do
+	-- 	if not param:match('Count') and not param:match('Kill') then
+	-- 		local desc = varDescs[param]
+	-- 		local line = '\n'..' - '..param..' = '..WriteValue(modVars[param], blue)
+	-- 		if desc then
+	-- 			-- line = line..('\t'):rep(15-floor(line:len()/4))..' => '..desc
+	-- 			line = line..alinea..' => '..desc
+	-- 		end
+	-- 		all_vars = all_vars..line
+	-- 	end
+	-- end
+	-- vars_content:SetCaption(all_vars)
+
+	do -- Chili stuff
+		
+		Chili = WG.Chili
+		Button = Chili.Button
+		Label = Chili.Label
+		Checkbox = Chili.Checkbox
+		Window = Chili.Window
+		Panel = Chili.Panel
+		StackPanel = Chili.StackPanel
+		ScrollPanel = Chili.ScrollPanel
+		TextBox = Chili.TextBox
+		Image = Chili.Image
+		Progressbar = Chili.Progressbar
+		Font = Chili.Font
+		Control = Chili.Control
+		TextBox = Chili.TextBox
+		screen0 = Chili.Screen0
+		
+		--create main Chili elements
+		local labelHeight = 22
+		local fontSize = 16
+		
+		window = Window:New{
+			parent = screen0,
+			name   = 'chickenpanel';
+			color = {0, 0, 0, 0},
+			width = 270;
+			height = 200;
+			right = 0;
+			y = 100,
+			-- autosize = true,
+			dockable = true;
+			draggable = true,
+			resizable = false,
+			tweakDraggable = true,
+			tweakResizable = false,
+			minWidth = 270,
+			minHeight = 200,
+			padding = {0, 0, 0, 0},
+			-- MouseUp = function(self)
+			-- Spring.Echo('MOUSE up')
+			-- 	-- self.draggable = true
+			-- end,
+			-- MouseDown = function(self)
+			-- Spring.Echo('MOUSE down')
+			-- 	-- self.draggable = true
+			-- end,
+			--itemMargin  = {0, 0, 0, 0},
+		}
+		
+		labelStack = StackPanel:New{
+			parent = window,
+			resizeItems = false;
+			orientation   = "vertical";
+			autosize = true,
+			height = 175;
+			width =  230;
+			x = 15,
+			y = 20,
+			padding = {0, 0, 0, 0},
+			itemMargin  = {0, 0, 0, 0},
+		}
+		
+		background = Image:New{
+			width="100%";
+			height="100%";
+			-- width = 270;
+			-- height = 200;
+			minWidth = 270,
+			minHeight = 200,
+			autosize = true,
+			y=0;
+			x=0;
+			keepAspect = false,
+			file = panelTexture;
+			parent = window;
+			disableChildrenHitTest = false,
+		}
+		
+		label_anger = Label:New{
+			parent = labelStack,
+			autosize=false;
+			align="left";
+			valign="left";
+			caption = '';
+			height = labelHeight,
+			width = 220;
+			x=15;
+			MouseOver = function(self)
+				UpdateToolTipAnger()
+			end,
+			font = {font = panelFont, size = fontSize, shadow = true, outline = true,},
+		}
+		label_chickens = Label:New{
+			parent = labelStack,
+			autosize=false;
+			align="left";
+			valign="left";
+			caption = '';
+			height = labelHeight,
+			width = 220;
+			x=15;
+			font = {font = panelFont, size = fontSize, shadow = true, outline = false,autoOutlineColor = false,},
+			MouseOver = UpdateToolTipChickens,
+		}
+
+
+		label_burrows = Label:New{
+			parent = labelStack,
+			autosize=false;
+			align="left";
+			valign="left";
+			caption = '';
+			height = labelHeight,
+			width = 220;
+			x=15,
+			font = {font = panelFont, size = fontSize, shadow = true, outline = true,},
+		}
+		label_aggro = Label:New{
+			parent = labelStack,
+			autosize=false;
+			align="left";
+			valign="left";
+			caption = '';
+			height = labelHeight,
+			width = 220;
+			x=15,
+			font = {font = panelFont, size = fontSize, shadow = true, outline = true,},
+		}
+
+		label_tech = Label:New{
+			parent = labelStack,
+			autosize=false;
+			align="left";
+			valign="left";
+			caption = '';
+			height = labelHeight,
+			width = 220;
+			font = {font = panelFont, size = fontSize, shadow = true, outline = true,},
+			MouseOver = UpdateToolTipTech,
+			MouseDown = function(self) 
+				local modHeight = 0
+				if not label_next_tech.visible then
+					modHeight = modHeight + label_next_tech.height
+					label_next_tech:Show()
+					curTime = spGetGameSeconds()
+					RetrieveModVars()
+					UpdateNextTech()
+				else
+					label_next_tech:Hide()
+					modHeight = modHeight - label_next_tech.height
+				end
+				window:Resize(nil,window.height + modHeight)
+			end,
+		}
+
+		label_next_tech = Label:New{
+			parent = labelStack,
+			autosize=true;
+			align="left";
+			valign="top";
+			-- height = labelHeight,
+
+			width = "100%";
+			tooltip = 'You spoil !',
+			font = {font = panelFont, size = fontSize, shadow = false, outline = false,autoOutlineColor = false,},
+		}
+		label_mode = Label:New{
+			parent = labelStack,
+			autosize=false;
+			align="center";
+			valign="bottom";
+			caption = '',
+			height = labelHeight*5/3,
+			x=200,
+			width = 100;
+			font = {font = panelFont, size = fontSize, shadow = true, outline = true,},
+		}
+		if Game.modName:match('dev') then
+
+			win_debug_consts = Window:New{
+				parent = Chili.Screen0,
+				x="15%",
+				y="5%",
+				width=600,
+				height = 800,
+				-- autosize=true,
+			}
+			consts_scroll = ScrollPanel:New{
+				x = 5,
+				y = 5,
+				right = 0,
+				width="100%",
+				height ="100%" ,
+				parent = win_debug_consts,
+				align = "left",
+				valign = "left",
+				fontsize = 12,
+				-- orientation = 'vertical',
+				autoArrangeV  = true,
+				autoArrangeH  = true,
+				centerItems  = false,
+				bottom = 35,
+				x = 0,
+				--width = 200,
+				--height = '100%',
+				autosize=true,
+				resizeItems = true,
+				-- children = { helptextbox, stack_stats, },				
+				-- caption = constSTR,
+				-- textColor = {1,1,1,1},
+			}
+			const_close = Button:New{
+				parent = win_debug_consts,
+				caption = 'Close',
+				OnClick = { function(self) self.parent:Hide() end },
+				
+				x=5,
+				height=30,
+				right=5,
+				bottom=5,
+
+			}
+			consts_content = TextBox:New{
+				x = 5,
+				y = 5,
+				right = 0,
+				parent = consts_scroll,
+				align = "left",
+				valign = "left",
+				fontsize = 12,
+				text = constSTR,
+				textColor = {1,1,1,1},
+			}
+			win_debug_consts:Hide()
+
+
+
+
+
+			-- hidden button on the chicken panel
+			button1 = Window:New{
+				parent = window,
+				color = {0, 0, 0, 0},
+				minHeight = 17,
+				minwidth = 15,
+				x = window.width-21,
+				y = "40%",
+				bottom = "90%",
+				resizable = false,
+				tweakDraggable = false,
+				tweakResizable = false,
+				padding = {0, 0, 0, 0},
+				MouseDown = function(self) 
+					win_debug_consts:ToggleVisibility()
+				end
+			}
+			win_debug_vars = Window:New{
+				parent = Chili.Screen0,
+				x="50%",
+				y="5%",
+				width=700,
+				height = 500,
+				-- autosize=true,
+			}
+			vars_content = Label:New{
+				x = 5,
+				y = 5,
+				right = 0,
+				parent = win_debug_vars,
+				align = "left",
+				valign = "left",
+				fontsize = 12,
+				caption = blue.."Variables modified by the game situation:\008",
+				textColor = {1,1,1,1},
+				font = {
+					font = "FreeSansBold.otf",
+					autoOutlineColor = false,
+				},
+			}
+			win_debug_vars:Hide()
+
+			button2 = Window:New{
+				parent = window,
+				color = {0, 0, 0, 0},
+				minHeight = 17,
+				minwidth = 15,
+				x = window.width-21,
+				y = "50%",
+				bottom = "90%",
+				resizable = false,
+				tweakDraggable = false,
+				tweakResizable = false,
+				padding = {0, 0, 0, 0},
+				MouseDown = function(self) 
+					if not win_debug_vars.visible then
+						UpdateDebugVars()
+					end
+					win_debug_vars:ToggleVisibility()
+				end
+			}
+
+		end
+		-- Activate tooltips for labels, they do not have them in default chili
+		function label_anger:HitTest(x,y) return self end
+		function label_chickens:HitTest(x,y) return self end
+		function label_burrows:HitTest(x,y) return self end
+		function label_aggro:HitTest(x,y) return self end
+		function label_tech:HitTest(x,y) return self end
+		if hidePanel then
+			window:Hide()
+		end
+
+		if WG.GlobalCommandBar and not hidePanel then
+			local function ToggleWindow()
+				if window.visible then
+					window:Hide()
+				else
+					window:Show()
+				end
+			end
+			if WG.chicken_global_command_button then -- work around since GlobalCommandBar doesn't have a remove function
+				WG.chicken_global_command_button.OnClick = {ToggleWindow}
+				WG.chicken_global_command_button:Show()
+			else
+				WG.chicken_global_command_button = WG.GlobalCommandBar.AddCommand("LuaUI/Images/chicken.png", "Chicken info", ToggleWindow)
+			end
+		end
+	end
+
+	widgetHandler:RegisterGlobal("ChickenEvent", ChickenEvent)
+	RetrieveModVars()
+	curTime = spGetGameSeconds()
+	UpdateRules()
+	WriteTooltipsOnce()
+	UpdateAnger()
+	UpdateNextTech()
+	label_next_tech:Hide()
+
+
+
+end
+
+
+function widget:GameFrame(n)
+	if (n%60< 1) then
+		UpdateRules()
+	end
+	-- every second for smoother countdown
+	if (n%30< 1) then
+		RetrieveModVars()
+		curTime = spGetGameSeconds()
+		UpdateAnger()
+		UpdateNextTech()
+		if win_debug_vars and win_debug_vars.visible then
+			UpdateDebugVars()
+		end
+	end
+end
+
+function widget:Shutdown()
+	fontHandler.FreeFont(waveFont)
+	if WG.chicken_global_command_button then
+		WG.chicken_global_command_button:Hide()
+	end
+	widgetHandler:DeregisterGlobal("ChickenEvent")
+end
+
+do -- writing functions
+	local function TrimZeroes(n,maxdec)
+		local str = tostring(('%.'..maxdec..'f'):format(n))
+		if not str:find('.') then
+			return n
+		end
+		while str:sub(-1)=='0' do
+			str = str:sub(1,-2)
+		end
+		if str:sub(-1)=="." then
+			str = str:sub(1,-2)
+		end
+		return str
+	end
+	local function TrimComma(str)
+		local pos = str:find(',%s*$')
+		if pos then
+			str = str:sub(1,pos-1)
+		end
+		return str
+	end
+	WriteValue = function(v,col)
+		if type(v)=='table' then
+			local value =''
+			for i,tv in ipairs(v) do
+				value = value..(col or '')..WriteValue(tv)..'\008, '
+			end
+			value = '{'..TrimComma(value)..'}'
+			return value
+		end
+		return (col or '')..(v==nil and '' or type(v)=='boolean' and tostring(v) or type(v)=='string' and "'"..v.."'" or TrimZeroes(v,3))..'\008'
+	end
+	WritePair = function(param,v,col)
+		local value=""
+		if type(v)=='table' then
+			for i,tv in ipairs(v) do
+				value = value..WriteValue(tv,col)..', '
+			end
+			value = '{'..TrimComma(value)..'}'
+		else
+			value = WriteValue(v,col)
+		end
+		return param..' = '..value
+	end
+end
+
+do -- function RetrieveModVars
+	modOnce = {
+		difficulty = true,
+		humanAggroPerBurrow = true,
+		gracePeriod = true,
+		burrowSpawnRate = true, 
+		techMalusMultiplayer = true,
+		malus = true,
+		burrowRegressTime = true,
+		easyBurrowKillFactor = true,
+		humanAggroDefenseFactor = true,
+		defensePerMin = true,
+	}
+	consts = {
+		'alwaysVisible',
+		'maxAge',
+		'alwaysEggs',
+		'eggDecayTime',
+		'burrowEggs',
+
+
+		'minBaseDistance',
+		'maxBaseDistance',
+		'maxBurrows',
+		'burrowSpawnRate',
+		'chickenSpawnRate',
+		'specialChickChance',
+		'techTimeMult',
+
+		'baseWaveSize',
+		'burrowWaveSize',
+		'humanAggroWaveFactor',
+		'humanAggroWaveMax',
+		'waveSizeMult',
+		'timeSpawnBonus',
+		'rampUpTime',
+		'waveRatio',
+
+		'gracePeriod',
+		'gracePenalty',
+		'gracePeriodMin',
+
+
+		'techAccelPerPlayer',
+		'techAccelTeamScaling',
+		'techTimeFloorFactor',
+		'techTimeMax',
+
+		'burrowRespawnChance',
+
+		'playerMalus',
+
+		'humanAggroTeamScaling',
+		'humanAggroMin',
+		'humanAggroMax',
+		'humanAggroDecay',
+
+		'humanAggroPerBurrow',
+		'humanAggroTechTimeRegress',
+		'humanAggroTechTimeProgress',
+		'burrowRegressTime',
+
+		'queenTime',
+		'burrowQueenTime',
+		'miniQueenTime',
+		'humanAggroQueenTimeFactor',
+		'miniQueenName',
+		'queenMorphName',
+		'queenMorphTime',
+		'queenSpawnMult',
+		'endMiniQueenWaves',
+		'queenHealthMod',
+
+		'queenName',
+		'humanAggroQueenTimeMax',
+		'humanAggroQueenTimeMin',
+
+		'defensePerBurrowKill',
+		'humanAggroDefenseFactor',
+		'defensePerMin',
+
+		'scoreMult',
+
+	}
+	constDescs = {
+
+		alwaysVisible = 'make chickens and burrows always visible for the players',
+		maxAge = 'max time before chicken disappear',
+		alwaysEggs = 'Eggs never decay',
+		eggDecayTime = 'if alwaysEggs is false, how long eggs last -- TODO: test decay the oldest when a max number is reached for lag sake',
+		burrowEggs = 'how many eggs drop a burrow',
+
+		minBaseDistance = 'definitive min base distance for regular chicks',
+		maxBaseDistance = 'definitive max base distance for regular chicks',
+		maxBurrows = 'definitive max burrows',
+		burrowSpawnRate = 'base frequency for burrow spawn',
+		specialChickChance = 'base chance of getting higher tech chicken per wave per burrow, if it happen, there is a 1/4 chance of getting even higher tech chicken for this burrow this wave',
+		techTimeMult = 'multiply the tech time needed for chicken to appear',
+
+		chickenSpawnRate = 'frequency of waves',
+		burrowRespawnChance = 'chance of borrow respawing after one is destroyed',
+
+		-- squad size calculation
+		baseWaveSize = 'base size per wave',
+		burrowWaveSize = 'additional size per burrow',
+		humanAggroWaveFactor = 'multiplier of additional size per positive aggro point per wave',
+		humanAggroWaveMax = 'maximum additional size defined by humanAggro and humanAggroWaveFactor (line above)',
+		waveSizeMult = 'multiplier of all the above calculation',
+		timeSpawnBonus = 'augment waveSizeMult by this value * game time in minutes',
+		rampUpTime = 'if this time is not yet reached, reduce the final squad size calculation of the burrow by the proportion of real time vs this time value, until it is reached',
+		waveRatio = 'proportion of the squad of first chicken type vs second chicken type ',
+		--
+		gracePeriod = 'base grace period',
+		gracePenalty = 'how much the gracePeriod is reduced per player added',
+		gracePeriodMin = 'minimal grace period no matter the number of players',
+
+		queenTime = 'base time remaining before queen appearance',
+		miniQueenTime = '{time}',
+		queenMorphName = '',
+		queenName = '',
+		humanAggroTeamScaling = 'factor waighting on the impact of having more players used for modifying burrowRegressTime and humanAggroPerBurrow',
+		humanAggroMin = 'minimum aggro possible',
+		humanAggroMax = 'maximum aggro possible',
+
+		techAccelPerPlayer = 'base of tech malus per minute per player, for each player techAccelperPlayer is divided more and then added',
+		techAccelTeamScaling = 'oscillate around 1, factor the divisor of techAccelPerPlayer ',
+		techTimeFloorFactor = 'the minimum fraction of the real time the tech modifier cannot go below',
+		techTimeMax = 'maximum tech possible, chicken that need higher tech time than this value will never be able to appear',
+
+		endMiniQueenWaves = 'in pvp, when queen come, mini queens spawn at this frequency of waves ',
+		queenHealthMod = 'multiplier of queen hp',
+		queenSpawnMult = 'multiplier of the squad spawned by the queen',
+
+		miniQueenName = '',
+
+		burrowQueenTime = 'base of queen time reduction when killing a burrow',
+		humanAggroQueenTimeFactor = 'how much the positive aggro multiply the base reduction of queen time (2 in aggro with 2 in humanAggroQueenTimeFactor will multiply the base reduction by 4)',
+		humanAggroQueenTimeMax = 'cap of aggro before beeing used to calculate the humanAggroQueenTimeFactor above',
+		humanAggroQueenTimeMin = 'min cap for the same purpose as above',
+
+		humanAggroDecay = 'net loss of aggression rating per minute of game time TODO: implement a more refined system',
+		queenMorphTime = '{min,max} min and max frame between which a queen morph occur at random',
+		humanAggroPerBurrow = 'aggro gain per burrow killed weighted by easyBurrowKillFactor',
+		humanAggroTechTimeRegress = 'net tech time reduction per positive aggro point per minute',
+		humanAggroTechTimeProgress = 'net tech time addition per negative aggro point per minute',
+		burrowRegressTime = 'base value of net tech time gained when killing a burrow',
+
+		defensePerBurrowKill = 'net defense added to the pool on burrow killed',
+		defensePerMin = 'net defense added to the defense pool each minute',
+		humanAggroDefenseFactor = 'additional defense for defensePerMin, weighted by aggro and multiplied by player count',
+
+		playerMalus = 'factor the playerCount and only used to diminish the burrowSpawnRate (?!) and factor the xp gained at end of game',
+		scoreMult = '',
+	}
+
+
+	rules = {
+		"difficulty",
+		"totalTechMod",
+		"currTech",
+		"nextTech",
+		"nextTechTime",
+		"humanAggro",
+		"techModByAggro",
+		"humanAggroPerBurrow",
+		"easyBurrowKillFactor",
+		"burrowRegressTime",
+		"queenTime",
+		"queenTimeReduction",
+		"lagging",
+		"techMalusMultiplayer",
+		"malus",
+		"gracePeriod",
+		"burrowCount",
+		"burrowSpawnTime",
+		"burrowSpawnRate",
+		"squadNumber",
+
+		"humanAggroDefenseFactor",
+		"defensePerMin",
+		"defensePoolDelta",
+
+		"waveSchedule",
+		"lastWaveTime",
+		"playerCount",
+
+		roostName .. "Count",
+		roostName .. "Kills",
+	}
+	varDescs = {
+		difficulty = diff_order[spGetGameRulesParam('difficulty')]
+		,humanAggro = " the current aggression rating, which, if negative, will up the total tech mod at each new wave occuring"
+		,totalTechMod = "the sum of all the time gained and lost (wave passed with negative aggro, burrow killed...)"
+		,currTech = "the modified time which unlock higher tech of chicken"
+		.."\n\t\t => can't be below time * techTimeFloorFactor (half the time passed by default),"
+		.."\n\t\t => and can't be above techTimeMax which is used to cap higher types of chicken so they would never appear))"
+		,nextTech = "next chicken type (or one of them)"
+		,nextTechTime = "which time is needed for an higher tech chicken to get unlocked "
+		,techModByAggro = "how much tech time have been lost at this wave: humanAggroTechTimeProgress * humanAggro * timeSinceLastWaveMinutes"
+		,easyBurrowKillFactor = 'how easy to kill a burrow formula: ( (((minBaseDistance + maxBaseDistance)/2)/2250)*3 + (burrowSpawnRate/45) ) / 4'
+		,techMalusMultiplayer = "malus added to the techModByAggro and depending on:"
+		.."\n\t\t => wave frequency, number of players, proximity and frequency of nest spawning (how easy it is to kill nests)"
+		.."\n\t\t => chickenSpawnRate, techAccelPerPlayer,techAccelTeamScaling, minBaseDistance, maxBaseDistance "
+		.."\n\t\t => for i=2,playerCount do	techMalusMultiplayer = techMalusMultiplayer + (techAccelPerPlayer/(i*techAccelTeamScaling)) end"
+		.."\n\t\t => techMalusMultiplayer = techMalusMultiplayer * easyBurrowKillFactor"
+		,humanAggroPerBurrow = "how many point in aggro won per burrow killed"
+		,burrowRegressTime = "net time gained by killing a burrow weighted by easyBurrowKillFactor"
+		,queenTime = "baseQueenTime reduced by the killing of burrows"
+		.."\n\t\t => formula: burrowQueenTime * humanAggroQueenTimeFactor * (humanAggro minmaxed by max(0, humanAggroQueenTimeMin) and humanAggroQueenTimeMax)"
+		,queenTimeReduction = "if positive aggro, the resulting reduction of remaining time for queen appearance depending on base burrowQueenTime * current aggro * humanAggroQueenTimeFactor "
+		,lagging = "not implemented"
+		,gracePeriod = "determined by the gracePenalty * playerCount"
+
+		,squadNumber = "final multiplier of the squad size of chicken type per wave per burrow, ratioed by base waveRatio that give proportion of first and second chicken type"
+
+		,malus = "factor of playerCount, used only for burrowSpawnRate and xp at the end of the game: playerCount^playerMalus "
+		,burrowSpawnRate = "base burrowSpawnRate modified by malus and number of AIs: burrowSpawnRate/(malus*0.8 + 0.2)/SetCount(computerTeams)"
+		,burrowSpawnTime = "current burrow spawn frequency, depending on existing burrows and base spawn rate : burrowSpawnRate*0.20*(burrowCount+1)"
+
+		,humanAggroDefenseFactor = "base humanAggroDefenseFactor * playerCount"
+		,defensePerMin = "defensePerMin * playerCount"
+		,defensePoolDelta = "augmentation of the pool this wave: defensePerMin + humanAggroDefenseFactor * aggro"
+
+		,waveSchedule = "game frame for the next wave: last wave frame + 30 * burrowSpawnRate + 1"
+		,lastWaveTime = "in seconds",
+
+	}
+	for chickenName,_ in pairs(chickenColorSet) do
+		rules[#rules + 1] = chickenName .. 'Count'
+		rules[#rules + 1] = chickenName .. 'Kills'
+	end
+	RetrieveModVars = function ()
+		for _,rule in ipairs(rules) do
+			if not modOnce[rule] then
+				modVars[rule] = spGetGameRulesParam(rule)
+			end
+		end
+	end
+
+end
+local GetTableOrderFromCode
+do
+	GetLocal = function(level,search)
+		local name,i,value = true,1
+		while name do
+			name, value = debug.getlocal(level, i)
+			if name==search then
+				return value
+			end
+			i = i + 1
+		end
+	end
+
+	local code
+	local getinfo = debug.getinfo
+	for i=1,8 do
+		local info = getinfo(i)
+		if info.func and info.what=="main" and getinfo(i+2).name=="LoadWidget" then
+			code = GetLocal(i+3,"text")
+			break
+		end
+	end
+
+
+	-- GetClosure can work on finding brackets or quotes
+	local function GetClosure(code, opening,closing, startpos)
+		local pos, sum = startpos or 1, 0
+		local start
+		local tries = 0
+		while pos do
+			tries = tries+1
+			if tries>100 then
+				Echo('ERROR, too many tries')
+				return
+			end
+			local open,end_open = code:find(opening,pos)
+
+			local close,end_close = code:find(closing,pos)
+
+			if not (start or open) then
+				-- Echo('no opening: '..opening..' found.')
+				return
+			elseif not start then
+				start = open
+			elseif not close then
+				-- Echo('no (more) closing "'..closing..'" found, closure never ended')
+				return start
+			end
+			if open and close then
+				-- case both opening and closing are found at same pos, either because they are the same or because they start the same
+				if open==close then
+					-- same pos, probably quote, we select the one needed
+					if sum%2==1 then 
+						open = nil
+					else
+						close = nil
+					end
+				elseif close<open then
+					open = nil
+				else
+					close = nil
+				end
+			end
+			sum = sum + (open and 1 or close and -1)
+			Echo('open',open,'close',close,sum)
+			if sum==0 then
+				return start,end_close
+			end
+			pos = (open and end_open+1 or close and end_close+1)
+		end
+	end
+
+
+	local time = os.clock()
+	local commentSym ='%-%-'
+	local blockSym = '%[%['
+	local endBlockSym = '%]%]'
+	local nl = '[^\n]+'
+	local inblock = false
+	local incomment = false
+	local tries = 0
+	local maxtries = 10000
+	local function CheckIfValid(pos,line,sym)
+		local inString, str_end, quote = line:find("([\"']).-"..sym..".-%1")
+		-- check if the found sym is not actually before this, or if the number of quotes are actually even
+		if inString and ( pos<inString or select(2, line:sub(1,str_end):gsub(quote,''))%2==1 ) then
+			inString=false
+		end
+		while inString do -- try a next one in the line, if any
+			tries = tries + 1
+			if tries>maxtries then Echo('TOO MANY TRIES 2') return end
+			pos = line:find(sym, str_end+1)
+			if not pos then
+				return
+			end
+			inString, str_end, quote = line:find("([\"']).-"..sym..".-%1",str_end+1)
+			if inString and ( pos<inString or select(2, line:sub(1,str_end):gsub(quote,''))%2==1 ) then
+				inString=false
+			end
+		end
+		return pos
+	end
+
+	local function check(line,inblock,incomment)
+		tries = tries +1
+		if tries>maxtries then Echo('TOO MANY TRIES 1') return line end
+		if inblock then
+
+			-- we check if the end of block is in this line
+			local endBlk = line:find(endBlockSym)
+			if endBlk then
+				-- send a normal check for the rest of the line after the end of block
+				return ( incomment and '' or line:sub(1,endBlk+1) ).. check(line:sub(endBlk+2))
+			else
+				return (not incomment and line or ' '), true, incomment -- NOTE: returning a space to avoid the before and the after of the block to get snapped together
+			end
+		end
+		--
+		
+		local block = line:find(blockSym)
+		if block then
+			block = CheckIfValid(block,line,blockSym)
+		end
+		local comStart = line:find(commentSym)
+		if comStart then
+			comStart = CheckIfValid(comStart,line,commentSym)
+		end
+		if block then
+			if not comStart or comStart>block then
+				-- block is a string block
+				local treated = line:sub(1,block+1)
+				line, inblock, incomment = check(line:sub(block+2), true, false)
+				return treated .. line, inblock, incomment
+			elseif comStart==block-2 then
+				-- block comment
+				local treated = (comStart==1 and '' or line:sub(1,comStart-1))
+				line, inblock, incomment = check(line:sub(block+2), true, true)
+				return treated .. line, inblock, incomment
+			end
+		end
+		if comStart then
+			-- no valid block in sight, either appearing after the commenting or none at all...
+			-- usual uncommenting of line
+			-- return line:sub(1,comStart-1)
+			line = line:sub(1,comStart-1)
+			local _,chars = line:gsub('%S','')
+			return chars>0 and line..'\n'
+
+		end
+
+		return line
+
+	end
+
+
+	local t,n = {}, 0
+
+
+	local function GetSym(sym,curPos)
+		local pos = code:find(sym, curPos)
+		if not pos then
+			return
+		end
+		local line,sol = code:line(pos)
+		pos = CheckIfValid(pos - sol + 1, line, sym)-- convert to pos of the line
+		if not pos then
+			return GetSym(sym,sol+line:len())
+		end
+		return pos and pos + sol - 1, line, sol
+	end
+	local curPos,_ = 1
+	local comStart, line, sol
+	local block = GetSym(blockSym,curPos)
+	local tries = 0
+	local function CheckBlock(curPos,block,comStart)
+		--we register the pos of a starting block symbol
+		-- we register the position of the next comment symbol
+		-- if the block is before the comment we verify the validity of the block by jumping to its line and checking if it's just chars in a string
+		-- , or if there is another valid block in this line
+		local _,newPos = code:find(endBlockSym,block+2)
+			n = n + 1
+		if comStart==block-2 then
+			-- this is a block comment, we keep what is behind
+			t[n] = code:sub(curPos,comStart-1)
+		else
+			-- block is valid and comment is after, this is a block string, we can safely pick everything until the end of the block
+			t[n] = code:sub(curPos,newPos)
+		end
+		if not newPos then -- the block never ended
+			return
+		end
+		curPos = newPos+1
+		block = GetSym(blockSym,curPos)
+		return curPos,block
+	end
+
+
+
+	local solutions = {
+		-- function()
+		-- 	for line in code:gmatch(nl) do
+		-- 		line, inblock,incomment = check(line, inblock, incomment)
+		-- 	end
+		-- end,
+		function()
+			while curPos do
+				tries = tries +1 if tries>3000 then Echo('TOO MANY TRIES', tries) break end
+				if not comStart then
+					comStart, line, sol = GetSym(commentSym,curPos) 
+				end
+
+				if not comStart then
+					n=n+1
+					t[n] = code:sub(curPos)
+					break
+				elseif block and comStart>=block-2 then -- we check if comStart is eaten by a block or making a block comment
+					-- Echo('found block at ',block)
+					curPos,block = CheckBlock(curPos,block,comStart)
+					comStart = false
+				else
+					-- Echo('found comment at',comStart)
+					local part
+					-- simple uncommenting
+					if curPos<sol then
+						part = code:sub(curPos,sol-1)
+					end
+					local _line = line
+					line = line:sub(1,(comStart-sol+1)-1)
+
+					local _,chars = line:gsub('%S','')
+					if chars>0 then
+						part = (part or '')..line..'\n'
+					end
+					if part then
+						n=n+1
+						t[n]= part
+					end
+					curPos = code:find('\n',sol)
+					if curPos then
+						curPos = curPos+1
+						comStart = false
+					end
+				end
+				
+			end
+		end
+	}
+
+	for i,solution in ipairs(solutions) do
+		local time=os.clock()
+		for j=1,10 do
+			solution()
+		end
+		Echo('solution '..i..' took '..(os.clock()-time))
+	end
+
+
+
+	Spring.SetClipboard(table.concat(t))
+	Echo('time',os.clock()-time)
+	-- Echo(TEST:match(commentSym))
+
+
+	-- Echo("endStr is ", endStr,pos)
+	-- local strBefore = "%-%-.-[\'\"]"
+	-- local strBefore = "[^%-][^%-]"
+	-- for line in code:gmatch('[^\n]+') do
+
+		-- local str,str2 = line:match(strBefore)
+		-- if str then
+		-- linecount=linecount+1
+		-- codelines[linecount] = line:gsub('^.-'..stringSyms,'')
+			-- Echo(str,str2,'|||',line:gsub(strBefore,''))
+		-- end
+		--if linecount>32 and linecount<37 then
+		-- line,commented = line:purgecomment(commented)
+		--Echo(linecount..':'..line)
+		--end
+
+		-- codelines[linecount]=line..'\n'
+		
+	-- end
+	-- Spring.SetClipboard(code)
+
+	GetTableOrderFromCode = function(code,nameVar)
+		if not nameVar then
+			Echo('ERROR, ',nameVar, 'is not a string')
+		end
+		local tries = 0
+		local pos,_ = 1
+		while tries<15 do
+			tries = tries+1
+			_,pos = code:find(nameVar..'%s-=')
+			if not pos then
+				Echo('ERROR, ',nameVar, 'not found')
+				return
+			end
+			local start,endpos = GetClosure(code, "%{","%}", pos)
+			if (start and endpos) then
+				local codeTable = code:sub(start,endpos)
+				-- codeTable = PurgeComment(codeTable)
+				Spring.SetClipboard(codeTable)
+				-- verify it's still good after 
+				return codeTable
+			end
+
+		end
+		Echo('TRIES',tries)
+	end
+	-- Echo("GetTableOrderFromCode() is ", GetTableOrderFromCode(code,"test"))
+end
+if f then
+	f.DebugWidget(widget)
+end
+--------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
